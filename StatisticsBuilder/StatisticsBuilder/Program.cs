@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StatisticsBuilder.Models;
+using StatisticsBuilder.Rules;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,16 +18,13 @@ namespace StatisticsBuilder
             var jsonString = File.ReadAllText(jsonFile);
 
             var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
+            allChangeLists.ForEach(a => a.ParsedDescription = ParseDescription(a.Description));
 
-            var dict = new Dictionary<string, List<string>>();
-            foreach (var changelist in allChangeLists)
-            {
-                var description = ParseDescription(changelist.Description);
-                                
-            }
+            SameAuthorForTasks.WriteStats(allChangeLists);
+
             Console.ReadKey();
         }
-
+        
         private static Description ParseDescription(string description)
         {
             var firstPartIndex = description.IndexOf(";");

@@ -29,5 +29,8 @@ namespace StatisticsBuilder.Models
 
         [JsonProperty("Author")]
         public string Author { get; set; }
+
+        [JsonIgnore]
+        public Description ParsedDescription { get; set; }
     }
 }
