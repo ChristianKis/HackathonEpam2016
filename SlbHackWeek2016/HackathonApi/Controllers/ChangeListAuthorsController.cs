@@ -22,7 +22,7 @@ namespace HackathonAPI.Controllers
             MyBestGuess myGuess = new MyBestGuess();
             myGuess.Id = changeList.Id;
 
-            RuleManager.Execute(changeList)
+            string result = RuleManager.Execute(changeList);
 
             //XXX Start working here:
             //Use your algorithm to find out who was the author of the changelist.
@@ -37,7 +37,7 @@ namespace HackathonAPI.Controllers
             // You can start testing this api at http://localhost:10000/swagger
             // glhf!
 
-            myGuess.Author = "John Doo";
+            myGuess.Author = result;
 
             return Ok(myGuess);
         }

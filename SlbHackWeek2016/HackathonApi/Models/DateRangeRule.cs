@@ -36,17 +36,18 @@ namespace GuessChangeListAuthor.Models
             }
         }
 
-        public Dictionary<string, int> Execute(ChangeList cl)
+        public int Execute(string author, ChangeList cl)
         {
-            var result = new Dictionary<string, int>();
+            var dto = datas.FirstOrDefault(_ => _.Author == author);
 
-            foreach (var dto in datas)
-            {
-                if (cl.Date >= dto.minDate && cl.Date <= dto.maxDate)
-                    result.Add(dto.Author, 1);
-            }
+            if (dto == null)
+                return 0;
 
-            return result;
+            if (cl.Date >= dto.minDate && cl.Date <= dto.maxDate)
+                return 1;
+            
+
+            return 0;
         }
     }
 }

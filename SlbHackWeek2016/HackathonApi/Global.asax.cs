@@ -20,9 +20,20 @@ namespace HackathonAPI
 
             var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
 
+            var authors = from item in allChangeLists                       
+                        group item by item.Author into grp
+                       select grp.Key;
+
+            foreach (var author in authors)
+            {
+                RuleManager.Add(author);
+            }
+
             var dateRule = new DateRangeRule();
 
             dateRule.GenerateData(allChangeLists);
+            
+            RuleManager.Add(dateRule);
 
 
             //beolvasás
@@ -36,8 +47,6 @@ namespace HackathonAPI
             //
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
-
-
         }
     }
 }
