@@ -26,9 +26,12 @@ namespace StatisticsBuilder
             ChangeListNumbersInComments.WriteStats(allChangeLists);
             Console.WriteLine();
             CommentForTesterIsAuthor.WriteStats(allChangeLists);
+            Console.WriteLine();
+            CommentForTesterIsNcOrEmpty.WriteStats(allChangeLists);
+            //Console.WriteLine();
+            //Promotes.WriteStats(allChangeLists);
 
-            // Promotes.WriteStats(allChangeLists);
-
+            Console.WriteLine();
             Console.WriteLine("Done.");
             Console.ReadKey();
         }
@@ -53,7 +56,7 @@ namespace StatisticsBuilder
                 }
             }
         }
-        
+
         private static Description ParseDescription(string description)
         {
             var firstPartIndex = description.IndexOf(";");
