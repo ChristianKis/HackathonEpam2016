@@ -21,6 +21,8 @@ namespace StatisticsBuilder
             allChangeLists.ForEach(a => a.ParsedDescription = ParseDescription(a.Description));
 
             SameAuthorForTasks.WriteStats(allChangeLists);
+            Console.WriteLine();
+            ChangeListNumbersInComments.WriteStats(allChangeLists);
 
             Console.ReadKey();
         }
