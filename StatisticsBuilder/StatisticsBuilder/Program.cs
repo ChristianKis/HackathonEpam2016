@@ -17,10 +17,14 @@ namespace StatisticsBuilder
             var jsonString = File.ReadAllText(jsonFile);
 
             var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
+
+            var dict = new Dictionary<string, List<string>>();
             foreach (var changelist in allChangeLists)
             {
                 var description = ParseDescription(changelist.Description);
+                                
             }
+            Console.ReadKey();
         }
 
         private static Description ParseDescription(string description)
@@ -28,7 +32,7 @@ namespace StatisticsBuilder
             var firstPartIndex = description.IndexOf(";");
 
             // no ; in the string
-            if (firstPartIndex < -1)
+            if (firstPartIndex < 0)
             {
                 return new Description() { Comment = description };
             }
@@ -40,7 +44,7 @@ namespace StatisticsBuilder
             // only 1 ; in the string
             if (firstPartIndex == secondPartIndex)
             {
-                var secondPart = description.Substring(firstPartIndex, description.Length - firstPartIndex + 1);
+                var secondPart = description.Substring(firstPartIndex + 1);
                 return new Description() { Id = commentId, Comment = secondPart };
             }
             
