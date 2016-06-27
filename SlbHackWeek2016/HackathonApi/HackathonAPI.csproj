@@ -135,6 +135,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChangeList.cs" />
+    <Compile Include="Models\DateRangeRule.cs" />
+    <Compile Include="Models\IRule.cs" />
+    <Compile Include="Models\RuleManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
