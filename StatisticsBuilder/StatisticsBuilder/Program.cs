@@ -19,17 +19,20 @@ namespace StatisticsBuilder
 
             var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
             allChangeLists.ForEach(a => a.ParsedDescription = ParseDescription(a.Description));
-            GenerateFilesForEachAuthor(allChangeLists);
+            //GenerateFilesForEachAuthor(allChangeLists);
 
-            SameAuthorForTasks.WriteStats(allChangeLists);
-            Console.WriteLine();
-            ChangeListNumbersInComments.WriteStats(allChangeLists);
-            Console.WriteLine();
-            CommentForTesterIsAuthor.WriteStats(allChangeLists);
-            Console.WriteLine();
-            CommentForTesterIsNcOrEmpty.WriteStats(allChangeLists);
+            //SameAuthorForTasks.WriteStats(allChangeLists);
+            //Console.WriteLine();
+            //ChangeListNumbersInComments.WriteStats(allChangeLists);
+            //Console.WriteLine();
+            //CommentForTesterIsAuthor.WriteStats(allChangeLists);
+            //Console.WriteLine();
+            //CommentForTesterIsNcOrEmpty.WriteStats(allChangeLists);
             //Console.WriteLine();
             //Promotes.WriteStats(allChangeLists);
+            //Console.WriteLine();
+            //CommitsByTimeOfDay.WriteStats(allChangeLists);
+            //CommitsByDate.WriteStats(allChangeLists);
 
             Console.WriteLine();
             Console.WriteLine("Done.");

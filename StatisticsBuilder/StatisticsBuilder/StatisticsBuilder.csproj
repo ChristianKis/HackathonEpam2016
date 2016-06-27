@@ -54,6 +54,8 @@
     <Compile Include="Rules\CommentForTesterIsAuthor.cs" />
     <Compile Include="Rules\CommentForTesterIsNcOrEmpty.cs" />
     <Compile Include="Rules\ChangeListNumbersInComments.cs" />
+    <Compile Include="Rules\CommitsByDate.cs" />
+    <Compile Include="Rules\CommitsByTimeOfDay.cs" />
     <Compile Include="Rules\Promotes.cs" />
     <Compile Include="Rules\SameAuthorForTasks.cs" />
   </ItemGroup>
