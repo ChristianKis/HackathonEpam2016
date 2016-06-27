@@ -30,7 +30,7 @@ namespace StatisticsBuilder
             // no ; in the string
             if (firstPartIndex < -1)
             {
-                return new Description() { Comment = description };
+                return new Description() { Comment = description, CommentTrimmed = description.Trim() };
             }
 
             var commentId = description.Substring(0, firstPartIndex);
@@ -41,12 +41,12 @@ namespace StatisticsBuilder
             if (firstPartIndex == secondPartIndex)
             {
                 var secondPart = description.Substring(firstPartIndex, description.Length - firstPartIndex + 1);
-                return new Description() { Id = commentId, Comment = secondPart };
+                return new Description() { Id = commentId, Comment = secondPart, IdTrimmed = commentId.Trim(), CommentTrimmed = secondPart.Trim(), IdSplitted = commentId.Split(',').Select(s =>s.Trim()).ToArray() };
             }
             
             var comment = description.Substring(firstPartIndex + 1, secondPartIndex - firstPartIndex - 1);
             var commentForTesters = description.Substring(secondPartIndex + 1);
-            return new Description() { Id = commentId, Comment = comment, CommentForTesters = commentForTesters };
+            return new Description() { Id = commentId, Comment = comment, CommentForTesters = commentForTesters, IdTrimmed = commentId.Trim(), CommentTrimmed = comment.Trim(), CommentForTestersTrimmed = commentForTesters.Trim(), IdSplitted = commentId.Split(',').Select(s => s.Trim()).ToArray() };
         }
     }
 }
