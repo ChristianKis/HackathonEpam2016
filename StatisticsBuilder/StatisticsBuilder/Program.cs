@@ -27,6 +27,8 @@ namespace StatisticsBuilder
             Console.WriteLine();
             CommentForTesterIsAuthor.WriteStats(allChangeLists);
 
+            // Promotes.WriteStats(allChangeLists);
+
             Console.WriteLine("Done.");
             Console.ReadKey();
         }
