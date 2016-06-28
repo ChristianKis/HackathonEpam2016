@@ -33,7 +33,7 @@ namespace GuessChangeListAuthor.Models
                     values = new int[12];
                     commits.Add(year, values);
                 }
-                var month = changeList.Date.Month;
+                var month = changeList.Date.Month - 1;
                 commits[year][month]++;
                 dto.AllCommits++;
             }
@@ -50,7 +50,7 @@ namespace GuessChangeListAuthor.Models
             if (!dto.Commits.TryGetValue(year, out values))
                 return 0;
 
-            var month = cl.Date.Hour;
+            var month = cl.Date.Month - 1;
             var chance = 100 * values[month] / dto.AllCommits;
             return chance;
         }
