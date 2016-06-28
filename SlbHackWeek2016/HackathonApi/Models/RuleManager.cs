@@ -28,7 +28,12 @@ namespace GuessChangeListAuthor.Models
 
                 foreach (var rule in rules)
                 {
-                    one += rule.Execute(author, cl);
+                    var result = rule.Execute(author, cl);
+                    if (result == 999)
+                    {
+                        return author;
+                    }
+                    one += result;
                 }
 
                 if (one > sum)

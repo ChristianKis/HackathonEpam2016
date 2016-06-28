@@ -16,9 +16,7 @@ namespace HackathonAPI
             var jsonFile = Server.MapPath(@"~/App_Data/changelists_Trainingset.json");
             var jsonString = File.ReadAllText(jsonFile);
 
-            var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
-            AddAuthorsToRuleManager(allChangeLists);
-            AddRulesToRuleManager(allChangeLists);
+            InitializeRuleManager(jsonString);
 
 
             //beolvasás
@@ -32,6 +30,13 @@ namespace HackathonAPI
             //
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
+        }
+
+        public static void InitializeRuleManager(string jsonString)
+        {
+            var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
+            AddAuthorsToRuleManager(allChangeLists);
+            AddRulesToRuleManager(allChangeLists);
         }
 
         private static IEnumerable<IRule> GetRules()
