@@ -134,6 +134,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AlmaRule.cs" />
     <Compile Include="Models\ChangeList.cs" />
     <Compile Include="Models\DateRangeRule.cs" />
     <Compile Include="Models\IRule.cs" />

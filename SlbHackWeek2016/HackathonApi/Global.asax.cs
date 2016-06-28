@@ -19,33 +19,7 @@ namespace HackathonAPI
             var jsonFile = Server.MapPath(@"~/App_Data/changelists_Trainingset.json");
             var jsonString = File.ReadAllText(jsonFile);
 
-            var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
-
-            var wordsForAuthors = new Dictionary<string, Class>();
-
-            foreach (var change in allChangeLists)
-            {
-                if (!wordsForAuthors.ContainsKey(change.Author))
-                {
-                    wordsForAuthors.Add(change.Author, new Class {Author = change.Author});
-                }
-
-                var wordSplit = change.Description.Split(';', ' ');
-
-                foreach (var word in wordSplit)
-                {
-                    if (!wordsForAuthors[change.Author].Words.ContainsKey(word))
-                    {
-                        wordsForAuthors[change.Author].Words.Add(word, 1);
-                    }
-                    else
-                    {
-                        wordsForAuthors[change.Author].Words[word]++;
-                    }
-                }                
-            }
-
-            data = wordsForAuthors;
+            var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);            
 
             InitializeRuleManager(jsonString);
 
@@ -67,9 +41,36 @@ namespace HackathonAPI
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
 
+
         public static void InitializeRuleManager(string jsonString)
         {
             var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
+            var wordsForAuthors = new Dictionary<string, Class>();
+
+            foreach (var change in allChangeLists)
+            {
+                if (!wordsForAuthors.ContainsKey(change.Author))
+                {
+                    wordsForAuthors.Add(change.Author, new Class { Author = change.Author });
+                }
+
+                var wordSplit = change.Description.Split(';', ' ');
+
+                foreach (var word in wordSplit)
+                {
+                    if (!wordsForAuthors[change.Author].Words.ContainsKey(word))
+                    {
+                        wordsForAuthors[change.Author].Words.Add(word, 1);
+                    }
+                    else
+                    {
+                        wordsForAuthors[change.Author].Words[word]++;
+                    }
+                }
+            }
+
+            data = wordsForAuthors;
+            
             AddAuthorsToRuleManager(allChangeLists);
             AddRulesToRuleManager(allChangeLists);
         }

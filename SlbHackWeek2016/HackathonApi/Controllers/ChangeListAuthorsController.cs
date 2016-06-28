@@ -58,6 +58,14 @@ namespace HackathonAPI.Controllers
                 }
             }
 
+            if (!authorsWithPoint.Any())
+            {
+                myGuess.Author = "";
+
+                return Ok(myGuess);
+            }
+
+
             var authorWithHighestPoint = authorsWithPoint.Aggregate((a, b) => (a.Value > b.Value ? a : b));            
 
             //string result = RuleManager.Execute(changeList);
