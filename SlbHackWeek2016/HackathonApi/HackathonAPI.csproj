@@ -139,6 +139,7 @@
     <Compile Include="Models\IRule.cs" />
     <Compile Include="Models\RuleManager.cs" />
     <Compile Include="Models\TeamBuilderForSure.cs" />
+    <Compile Include="Models\ofwmgrForAlmostSure.cs" />
     <Compile Include="Models\TimeRangeRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

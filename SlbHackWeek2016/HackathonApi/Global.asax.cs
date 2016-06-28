@@ -39,6 +39,7 @@ namespace HackathonAPI
             yield return new DateRangeRule();
             yield return new TimeRangeRule();
             yield return new TeamBuilderForSure(); // 353 hits, 100% accuracy
+            yield return new ofwmgrForAlmostSure(); // 2434 hits, 2419 belong to ofwmgr, 15 to fsjursaether
         }
 
         private static void AddRulesToRuleManager(List<ChangeList> allChangeLists)

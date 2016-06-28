@@ -34,6 +34,8 @@ namespace StatisticsBuilder
             //CommitsByTimeOfDay.WriteStats(allChangeLists);
             //CommitsByDate.WriteStats(allChangeLists);
 
+            ChangSet.WriteStats(allChangeLists);
+
             Console.WriteLine();
             Console.WriteLine("Done.");
             Console.ReadKey();
