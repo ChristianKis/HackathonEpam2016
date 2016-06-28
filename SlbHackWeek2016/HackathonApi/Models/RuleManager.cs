@@ -1,9 +1,5 @@
 ﻿using HackathonAPI.Models;
-using System;
 using System.Collections.Generic;
-using System.EnterpriseServices;
-using System.Linq;
-using System.Web;
 
 namespace GuessChangeListAuthor.Models
 {
@@ -11,12 +7,13 @@ namespace GuessChangeListAuthor.Models
     {
         private static List<IRule> rules = new List<IRule>();
         private static List<string> authors = new List<string>();
-        public static void Add(IRule rule)
+
+        public static void AddRule(IRule rule)
         {
             rules.Add(rule);
         }
 
-        public static void Add(string author)
+        public static void AddAuthor(string author)
         {
             authors.Add(author);
         }
@@ -24,14 +21,14 @@ namespace GuessChangeListAuthor.Models
         public static string Execute(ChangeList cl)
         {
             var sum = 0;
-            var res = "";     
+            var res = "";
             foreach (var author in authors)
             {
                 var one = 0;
 
                 foreach (var rule in rules)
                 {
-                    one += rule.Execute(author, cl);                   
+                    one += rule.Execute(author, cl);
                 }
 
                 if (one > sum)

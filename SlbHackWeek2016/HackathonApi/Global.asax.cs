@@ -1,27 +1,24 @@
 ﻿using GuessChangeListAuthor.Models;
 using HackathonAPI.Models;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using System.Web.Routing;
 
 namespace HackathonAPI
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {
-            var jsonFile = @"k:\Hackathon\SlbHackWeek2016\changelists_Trainingset.json";
+            var jsonFile = Server.MapPath(@"~/App_Data/changelists_Trainingset.json");
             var jsonString = File.ReadAllText(jsonFile);
 
             var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
             AddAuthorsToRuleManager(allChangeLists);
-            AddDateRageRule(allChangeLists);
-            AddTeamBuilderRule(); // 353 hits, 100% accuracy
+            AddRulesToRuleManager(allChangeLists);
 
 
             //beolvasás
@@ -37,19 +34,20 @@ namespace HackathonAPI
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
 
-        private static void AddTeamBuilderRule()
+        private static IEnumerable<IRule> GetRules()
         {
-            var teambuilderForSureRule = new TeamBuilderForSure();
-            RuleManager.Add(teambuilderForSureRule);
+            yield return new DateRangeRule();
+            yield return new TimeRangeRule();
+            yield return new TeamBuilderForSure(); // 353 hits, 100% accuracy
         }
 
-        private static void AddDateRageRule(List<ChangeList> allChangeLists)
+        private static void AddRulesToRuleManager(List<ChangeList> allChangeLists)
         {
-            var dateRule = new DateRangeRule();
-
-            dateRule.GenerateData(allChangeLists);
-
-            RuleManager.Add(dateRule);
+            foreach (var rule in GetRules())
+            {
+                rule.GenerateData(allChangeLists);
+                RuleManager.AddRule(rule);
+            }
         }
 
         private static void AddAuthorsToRuleManager(List<ChangeList> allChangeLists)
@@ -60,7 +58,7 @@ namespace HackathonAPI
 
             foreach (var author in authors)
             {
-                RuleManager.Add(author);
+                RuleManager.AddAuthor(author);
             }
         }
     }
