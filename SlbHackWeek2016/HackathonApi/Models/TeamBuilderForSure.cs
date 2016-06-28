@@ -10,7 +10,6 @@ namespace GuessChangeListAuthor.Models
     {
         public void GenerateData(List<ChangeList> allChangeLists)
         {
-            throw new NotImplementedException();
         }
 
         public int Execute(string author, ChangeList cl)
