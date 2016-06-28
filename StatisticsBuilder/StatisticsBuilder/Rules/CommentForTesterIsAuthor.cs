@@ -25,7 +25,7 @@ namespace StatisticsBuilder.Rules
                     if (commentForTesterIsSameAuthorByAuthor.ContainsKey(changelist.Author))
                         commentForTesterIsSameAuthorByAuthor[changelist.Author]++;
                     else
-                        commentForTesterIsSameAuthorByAuthor[changelist.Author] = 0;
+                        commentForTesterIsSameAuthorByAuthor[changelist.Author] = 1;
                 }
                 else if (allAuthors.Contains(description.CommentForTestersTrimmed))
                 {
@@ -33,11 +33,21 @@ namespace StatisticsBuilder.Rules
                     if (commentForTesterIsDifferentAuthorByAuthor.ContainsKey(changelist.Author))
                         commentForTesterIsDifferentAuthorByAuthor[changelist.Author]++;
                     else
-                        commentForTesterIsDifferentAuthorByAuthor[changelist.Author] = 0;
+                        commentForTesterIsDifferentAuthorByAuthor[changelist.Author] = 1;
                 }
             }
             Console.WriteLine("Comment for tester is the same as author: {0}, authors: {1}, top: {2}-{3}", commentForTesterIsSameAuthor, commentForTesterIsSameAuthorByAuthor.Count, commentForTesterIsSameAuthorByAuthor.OrderByDescending(a => a.Value).First().Key, commentForTesterIsSameAuthorByAuthor.OrderByDescending(a => a.Value).First().Value);
             Console.WriteLine("Comment for tester is different author: {0}, authors: {1}, top: {2}-{3}", commentForTesterIsDifferentAuthor, commentForTesterIsDifferentAuthorByAuthor.Count, commentForTesterIsDifferentAuthorByAuthor.OrderByDescending(a => a.Value).First().Key, commentForTesterIsDifferentAuthorByAuthor.OrderByDescending(a => a.Value).First().Value);
+            Console.WriteLine("Comment for tester is the same as author");
+            foreach (var sameAuthor in commentForTesterIsSameAuthorByAuthor.OrderByDescending(a => a.Value))
+            {
+                Console.WriteLine("{0}: {1}", sameAuthor.Key, sameAuthor.Value);
+            }
+            Console.WriteLine("Comment for tester is different author");
+            foreach (var differentAuthor in commentForTesterIsDifferentAuthorByAuthor.OrderByDescending(a => a.Value))
+            {
+                Console.WriteLine("{0}: {1}", differentAuthor.Key, differentAuthor.Value);
+            }
         }
     }
 }

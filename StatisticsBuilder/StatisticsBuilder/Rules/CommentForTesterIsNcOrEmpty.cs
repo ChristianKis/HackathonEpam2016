@@ -11,7 +11,6 @@ namespace StatisticsBuilder.Rules
     {
         internal static void WriteStats(List<ChangeList> allChangelists)
         {
-            //var allAuthors = new HashSet<string>(allChangelists.Select(cl => cl.Author));
             var commentForTesterIsNull = 0;
             var commentForTesterIsEmpty = 0;
             var commentForTesterIsNc = 0;
@@ -27,7 +26,7 @@ namespace StatisticsBuilder.Rules
                     if (commentForTesterIsNullByAuthor.ContainsKey(changelist.Author))
                         commentForTesterIsNullByAuthor[changelist.Author]++;
                     else
-                        commentForTesterIsNullByAuthor[changelist.Author] = 0;
+                        commentForTesterIsNullByAuthor[changelist.Author] = 1;
                 }
                 else if (description.CommentForTestersTrimmed == "")
                 {
@@ -35,7 +34,7 @@ namespace StatisticsBuilder.Rules
                     if (commentForTesterIsEmptyByAuthor.ContainsKey(changelist.Author))
                         commentForTesterIsEmptyByAuthor[changelist.Author]++;
                     else
-                        commentForTesterIsEmptyByAuthor[changelist.Author] = 0;
+                        commentForTesterIsEmptyByAuthor[changelist.Author] = 1;
                 }
                 else if (string.Equals(description.CommentForTestersTrimmed, "nc", StringComparison.OrdinalIgnoreCase))
                 {
@@ -43,12 +42,27 @@ namespace StatisticsBuilder.Rules
                     if (commentForTesterIsNcByAuthor.ContainsKey(changelist.Author))
                         commentForTesterIsNcByAuthor[changelist.Author]++;
                     else
-                        commentForTesterIsNcByAuthor[changelist.Author] = 0;
+                        commentForTesterIsNcByAuthor[changelist.Author] = 1;
                 }
             }
             Console.WriteLine("Comment for tester is null: {0}, authors: {1}, top: {2}-{3}", commentForTesterIsNull, commentForTesterIsNullByAuthor.Count, commentForTesterIsNullByAuthor.OrderByDescending(a => a.Value).First().Key, commentForTesterIsNullByAuthor.OrderByDescending(a => a.Value).First().Value);
             Console.WriteLine("Comment for tester is empty: {0}, authors: {1}, top: {2}-{3}", commentForTesterIsEmpty, commentForTesterIsEmptyByAuthor.Count, commentForTesterIsEmptyByAuthor.OrderByDescending(a => a.Value).First().Key, commentForTesterIsEmptyByAuthor.OrderByDescending(a => a.Value).First().Value);
             Console.WriteLine("Comment for tester is nc: {0}, authors: {1}, top: {2}-{3}", commentForTesterIsNc, commentForTesterIsNcByAuthor.Count, commentForTesterIsNcByAuthor.OrderByDescending(a => a.Value).First().Key, commentForTesterIsNcByAuthor.OrderByDescending(a => a.Value).First().Value);
+            Console.WriteLine("Comment for tester is null");
+            foreach (var author in commentForTesterIsNullByAuthor.OrderByDescending(a => a.Value))
+            {
+                Console.WriteLine("{0}: {1}", author.Key, author.Value);
+            }
+            Console.WriteLine("Comment for tester is empty");
+            foreach (var author in commentForTesterIsEmptyByAuthor.OrderByDescending(a => a.Value))
+            {
+                Console.WriteLine("{0}: {1}", author.Key, author.Value);
+            }
+            Console.WriteLine("Comment for tester is nc");
+            foreach (var author in commentForTesterIsNcByAuthor.OrderByDescending(a => a.Value))
+            {
+                Console.WriteLine("{0}: {1}", author.Key, author.Value);
+            }
         }
     }
 }
