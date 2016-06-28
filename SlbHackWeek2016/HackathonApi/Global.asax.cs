@@ -19,21 +19,9 @@ namespace HackathonAPI
             var jsonString = File.ReadAllText(jsonFile);
 
             var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
-
-            var authors = from item in allChangeLists                       
-                        group item by item.Author into grp
-                       select grp.Key;
-
-            foreach (var author in authors)
-            {
-                RuleManager.Add(author);
-            }
-
-            var dateRule = new DateRangeRule();
-
-            dateRule.GenerateData(allChangeLists);
-            
-            RuleManager.Add(dateRule);
+            AddAuthorsToRuleManager(allChangeLists);
+            AddDateRageRule(allChangeLists);
+            AddTeamBuilderRule(); // 353 hits, 100% accuracy
 
 
             //beolvasás
@@ -47,6 +35,33 @@ namespace HackathonAPI
             //
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
+        }
+
+        private static void AddTeamBuilderRule()
+        {
+            var teambuilderForSureRule = new TeamBuilderForSure();
+            RuleManager.Add(teambuilderForSureRule);
+        }
+
+        private static void AddDateRageRule(List<ChangeList> allChangeLists)
+        {
+            var dateRule = new DateRangeRule();
+
+            dateRule.GenerateData(allChangeLists);
+
+            RuleManager.Add(dateRule);
+        }
+
+        private static void AddAuthorsToRuleManager(List<ChangeList> allChangeLists)
+        {
+            var authors = from item in allChangeLists
+                          group item by item.Author into grp
+                          select grp.Key;
+
+            foreach (var author in authors)
+            {
+                RuleManager.Add(author);
+            }
         }
     }
 }
