@@ -6,20 +6,55 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.Routing;
+using GuessChangeListAuthor.Statistics;
 
 namespace HackathonAPI
 {
     public class WebApiApplication : HttpApplication
     {
+        public static Dictionary<string, Class> data;
         protected void Application_Start()
         {
             var jsonFile = Server.MapPath(@"~/App_Data/changelists_Trainingset.json");
             var jsonString = File.ReadAllText(jsonFile);
 
+            var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
+
+            var wordsForAuthors = new Dictionary<string, Class>();
+
+            foreach (var change in allChangeLists)
+            {
+                if (!wordsForAuthors.ContainsKey(change.Author))
+                {
+                    wordsForAuthors.Add(change.Author, new Class {Author = change.Author});
+                }
+
+                var wordSplit = change.Description.Split(';', ' ');
+
+                foreach (var word in wordSplit)
+                {
+                    if (!wordsForAuthors[change.Author].Words.ContainsKey(word))
+                    {
+                        wordsForAuthors[change.Author].Words.Add(word, 1);
+                    }
+                    else
+                    {
+                        wordsForAuthors[change.Author].Words[word]++;
+                    }
+                }                
+            }
+
+            data = wordsForAuthors;
+
             InitializeRuleManager(jsonString);
 
+            //AddAuthorsToRuleManager(allChangeLists);
+            //AddDateRageRule(allChangeLists);
+            //AddTeamBuilderRule(); // 353 hits, 100% accuracy 0,23%
 
-            //beolvasás
+
+            //beolvasásí
 
             //adat staticba
 

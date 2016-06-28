@@ -142,13 +142,14 @@
     <Compile Include="Models\ofwmgrForAlmostSure.cs" />
     <Compile Include="Models\TimeRangeRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statistics\Class.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\changelists_Trainingset.json" />
+    <None Include="Properties\PublishProfiles\Almazor.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
