@@ -22,7 +22,45 @@ namespace HackathonAPI.Controllers
             MyBestGuess myGuess = new MyBestGuess();
             myGuess.Id = changeList.Id;
 
-            string result = RuleManager.Execute(changeList);
+            var words = changeList.Description.Split(' ', ';').Distinct();
+
+            var data = WebApiApplication.data;
+
+            var allWordsMentioned = new Dictionary<string, Dictionary<string, int>>();
+
+            foreach (var word in words)
+            {
+                var authorsWhoMentionWord = new Dictionary<string, int>();
+
+                foreach (var author in data.Keys)
+                {
+                    if (data[author].Words.ContainsKey(word))
+                    {
+                        authorsWhoMentionWord.Add(author, data[author].Words[word]);
+                    }
+                }
+
+                allWordsMentioned.Add(word, authorsWhoMentionWord);
+            }
+
+            var authorsWithPoint = new Dictionary<string, decimal>();
+
+            foreach (var word in allWordsMentioned)
+            {
+                foreach (var author in word.Value)
+                {
+                    if (!authorsWithPoint.ContainsKey(author.Key))
+                    {
+                        authorsWithPoint.Add(author.Key, 0);
+                    }
+
+                    authorsWithPoint[author.Key] += 10000 / word.Value.Count;
+                }
+            }
+
+            var authorWithHighestPoint = authorsWithPoint.Aggregate((a, b) => (a.Value > b.Value ? a : b));            
+
+            //string result = RuleManager.Execute(changeList);
 
             //XXX Start working here:
             //Use your algorithm to find out who was the author of the changelist.
@@ -37,7 +75,7 @@ namespace HackathonAPI.Controllers
             // You can start testing this api at http://localhost:10000/swagger
             // glhf!
 
-            myGuess.Author = result;
+            myGuess.Author = authorWithHighestPoint.Key;
 
             return Ok(myGuess);
         }

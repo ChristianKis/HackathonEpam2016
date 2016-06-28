@@ -140,6 +140,7 @@
     <Compile Include="Models\RuleManager.cs" />
     <Compile Include="Models\TeamBuilderForSure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statistics\Class.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
