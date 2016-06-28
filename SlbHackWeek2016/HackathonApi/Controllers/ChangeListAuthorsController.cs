@@ -22,6 +22,13 @@ namespace HackathonAPI.Controllers
             MyBestGuess myGuess = new MyBestGuess();
             myGuess.Id = changeList.Id;
 
+            string result = RuleManager.Execute(changeList);
+            if (!String.IsNullOrWhiteSpace(result))
+            {
+                myGuess.Author = result;
+                return Ok(myGuess);
+            }
+
             var words = changeList.Description.Split(' ', ';').Distinct();
 
             var data = WebApiApplication.data;

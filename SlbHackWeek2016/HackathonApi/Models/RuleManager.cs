@@ -1,4 +1,5 @@
-﻿using HackathonAPI.Models;
+﻿using System;
+using HackathonAPI.Models;
 using System.Collections.Generic;
 
 namespace GuessChangeListAuthor.Models
@@ -24,7 +25,7 @@ namespace GuessChangeListAuthor.Models
             var res = "";
             foreach (var author in authors)
             {
-                var one = 0;
+                //var one = 0;
 
                 foreach (var rule in rules)
                 {
@@ -33,14 +34,15 @@ namespace GuessChangeListAuthor.Models
                     {
                         return author;
                     }
-                    one += result;
+                    //one += result;
                 }
-
-                if (one > sum)
-                {
-                    sum = one;
-                    res = author;
-                }
+                return String.Empty;
+                
+                //if (one > sum)
+                //{
+                //    sum = one;
+                //    res = author;
+                //}
             }
 
             return res;
