@@ -49,7 +49,7 @@ namespace GuessChangeListAuthor.Models
             data = wordsForAuthors;
         }
 
-        public int Execute(string author, ChangeList cl)
+        public double Execute(string author, ChangeList cl)
         {
             var words = cl.Description.Split(' ', ';').Distinct();
 
@@ -79,7 +79,7 @@ namespace GuessChangeListAuthor.Models
                     sum += word.Value[author] / word.Value.Count;                
             }
 
-            return (int)sum;
+            return sum;
         }
     }
 }

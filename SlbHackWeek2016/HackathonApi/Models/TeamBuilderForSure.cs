@@ -12,7 +12,7 @@ namespace GuessChangeListAuthor.Models
         {
         }
 
-        public int Execute(string author, ChangeList cl)
+        public double Execute(string author, ChangeList cl)
         {
             if (author == "teamcitybuilder" && cl.Description == "pbmgr:")
             {

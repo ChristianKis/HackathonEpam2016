@@ -10,6 +10,6 @@ namespace GuessChangeListAuthor.Models
     public interface IRule
     {
         void GenerateData(List<ChangeList> allChangeLists);
-        int Execute(string author, ChangeList cl);
+        double Execute(string author, ChangeList cl);
     }
 }

@@ -10,5 +10,6 @@ namespace GuessChangeListAuthor.Statistics
         public string Author;
 
         public Dictionary<string, int> Words = new Dictionary<string, int>();
+        public List<DateTime> Dates = new List<DateTime>();
     }
 }

@@ -22,6 +22,13 @@ namespace HackathonAPI.Controllers
             MyBestGuess myGuess = new MyBestGuess();
             myGuess.Id = changeList.Id;
 
+            //string bayesResult = BayesCalculator.Execute(changeList);
+            //if (!String.IsNullOrWhiteSpace(bayesResult))
+            //{
+            //    myGuess.Author = bayesResult;
+            //    return Ok(myGuess);
+            //}
+
             string result = RuleManager.Execute(changeList);
             if (!String.IsNullOrWhiteSpace(result))
             {
@@ -29,70 +36,73 @@ namespace HackathonAPI.Controllers
                 return Ok(myGuess);
             }
 
-            var words = changeList.Description.Split(' ', ';').Distinct();
+            myGuess.Author = "bmolnar";
+            return Ok(myGuess);
 
-            var data = WebApiApplication.data;
+            //var words = changeList.Description.Split(' ', ';', ',').Distinct();
 
-            var allWordsMentioned = new Dictionary<string, Dictionary<string, int>>();
+            //var data = WebApiApplication.data;
 
-            foreach (var word in words)
-            {
-                var authorsWhoMentionWord = new Dictionary<string, int>();
+            //var allWordsMentioned = new Dictionary<string, Dictionary<string, int>>();
 
-                foreach (var author in data.Keys)
-                {
-                    if (data[author].Words.ContainsKey(word))
-                    {
-                        authorsWhoMentionWord.Add(author, data[author].Words[word]);
-                    }
-                }
-
-                allWordsMentioned.Add(word, authorsWhoMentionWord);
-            }
-
-            var authorsWithPoint = new Dictionary<string, decimal>();
-
-            foreach (var word in allWordsMentioned)
-            {
-                foreach (var author in word.Value)
-                {
-                    if (!authorsWithPoint.ContainsKey(author.Key))
-                    {
-                        authorsWithPoint.Add(author.Key, 0);
-                    }
-
-                    authorsWithPoint[author.Key] += 10000 / word.Value.Count;
-                }
-            }
-
-            if (!authorsWithPoint.Any())
-            {
-                myGuess.Author = "";
-
-                return Ok(myGuess);
-            }
-
-
-            var authorWithHighestPoint = authorsWithPoint.Aggregate((a, b) => (a.Value > b.Value ? a : b));            
-
-            //string result = RuleManager.Execute(changeList);
-
-            //XXX Start working here:
-            //Use your algorithm to find out who was the author of the changelist.
-            //Set the MyBestGuess.Author property accordingly.
-
-            //Eg:
-            //if (changeList.Date > new DateTime(2014, 11, 12))
+            //foreach (var word in words)
             //{
-            //    changeList.Author = "TSanta";
+            //    var authorsWhoMentionWord = new Dictionary<string, int>();
+
+            //    foreach (var author in data.Keys)
+            //    {
+            //        if (data[author].Words.ContainsKey(word))
+            //        {
+            //            authorsWhoMentionWord.Add(author, data[author].Words[word]);
+            //        }
+            //    }
+
+            //    allWordsMentioned.Add(word, authorsWhoMentionWord);
             //}
 
-            // You can start testing this api at http://localhost:10000/swagger
-            // glhf!
+            //var authorsWithPoint = new Dictionary<string, double>();
 
-            myGuess.Author = authorWithHighestPoint.Key;
+            //foreach (var word in allWordsMentioned)
+            //{
+            //    foreach (var author in word.Value)
+            //    {
+            //        if (!authorsWithPoint.ContainsKey(author.Key))
+            //        {
+            //            authorsWithPoint.Add(author.Key, 0);
+            //        }
 
-            return Ok(myGuess);
+            //        authorsWithPoint[author.Key] += (double)(author.Value) / (double)(Math.Pow(word.Value.Count, word.Value.Count));
+            //    }
+            //}
+
+            //if (!authorsWithPoint.Any())
+            //{
+            //    myGuess.Author = "bmolnar";
+
+            //    return Ok(myGuess);
+            //}
+
+
+            //var authorWithHighestPoint = authorsWithPoint.Aggregate((a, b) => (a.Value > b.Value ? a : b));            
+
+            ////string result = RuleManager.Execute(changeList);
+
+            ////XXX Start working here:
+            ////Use your algorithm to find out who was the author of the changelist.
+            ////Set the MyBestGuess.Author property accordingly.
+
+            ////Eg:
+            ////if (changeList.Date > new DateTime(2014, 11, 12))
+            ////{
+            ////    changeList.Author = "TSanta";
+            ////}
+
+            //// You can start testing this api at http://localhost:10000/swagger
+            //// glhf!
+
+            //myGuess.Author = authorWithHighestPoint.Key;
+
+            //return Ok(myGuess);
         }
     }
 

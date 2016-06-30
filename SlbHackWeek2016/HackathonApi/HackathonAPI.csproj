@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bayes, Version=1.0.2.3, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\BayesClassifier.1.0.2.3\lib\net45\Bayes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -79,6 +83,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stemmer, Version=1.0.2.3, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\BayesClassifier.1.0.2.3\lib\net45\Stemmer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
@@ -135,13 +143,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AlmaRule.cs" />
+    <Compile Include="Models\BayesCalculator.cs" />
+    <Compile Include="Models\BayesRule.cs" />
+    <Compile Include="Models\BayesRule-old.cs" />
     <Compile Include="Models\ChangeList.cs" />
     <Compile Include="Models\DateRangeRule.cs" />
+    <Compile Include="Models\DateRangeRule_new.cs" />
     <Compile Include="Models\IRule.cs" />
     <Compile Include="Models\RuleManager.cs" />
     <Compile Include="Models\TeamBuilderForSure.cs" />
     <Compile Include="Models\ofwmgrForAlmostSure.cs" />
     <Compile Include="Models\TimeRangeRule.cs" />
+    <Compile Include="Models\TimeRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Statistics\Class.cs" />
   </ItemGroup>
@@ -174,7 +187,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62493</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:9543/</IISUrl>
+          <IISUrl>http://localhost:10000/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

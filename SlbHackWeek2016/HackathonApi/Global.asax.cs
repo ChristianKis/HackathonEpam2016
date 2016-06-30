@@ -17,9 +17,7 @@ namespace HackathonAPI
         protected void Application_Start()
         {
             var jsonFile = Server.MapPath(@"~/App_Data/changelists_Trainingset.json");
-            var jsonString = File.ReadAllText(jsonFile);
-
-            var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);            
+            var jsonString = File.ReadAllText(jsonFile);        
 
             InitializeRuleManager(jsonString);
 
@@ -45,42 +43,63 @@ namespace HackathonAPI
         public static void InitializeRuleManager(string jsonString)
         {
             var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
-            var wordsForAuthors = new Dictionary<string, Class>();
 
-            foreach (var change in allChangeLists)
-            {
-                if (!wordsForAuthors.ContainsKey(change.Author))
-                {
-                    wordsForAuthors.Add(change.Author, new Class { Author = change.Author });
-                }
+            AddAuthorsToRuleManager(allChangeLists);
+            AddRulesToRuleManager(allChangeLists);
 
-                var wordSplit = change.Description.Split(';', ' ');
+            //BayesCalculator.GenerateData(allChangeLists);
 
-                foreach (var word in wordSplit)
-                {
-                    if (!wordsForAuthors[change.Author].Words.ContainsKey(word))
-                    {
-                        wordsForAuthors[change.Author].Words.Add(word, 1);
-                    }
-                    else
-                    {
-                        wordsForAuthors[change.Author].Words[word]++;
-                    }
-                }
-            }
+            //var wordsForAuthors = new Dictionary<string, Class>();
 
-            data = wordsForAuthors;
-            
+            //foreach (var change in allChangeLists)
+            //{
+            //    if (!wordsForAuthors.ContainsKey(change.Author))
+            //    {
+            //        wordsForAuthors.Add(change.Author, new Class { Author = change.Author });
+            //    }
+
+            //    var wordSplit = change.Description.Split(';', ' ', ',');
+
+            //    foreach (var word in wordSplit)
+            //    {
+            //        if (!wordsForAuthors[change.Author].Words.ContainsKey(word))
+            //        {
+            //            wordsForAuthors[change.Author].Words.Add(word, 1);
+            //        }
+            //        else
+            //        {
+            //            wordsForAuthors[change.Author].Words[word]++;
+            //        }
+            //    }
+
+            //    wordsForAuthors[change.Author].Dates.Add(change.Date);
+            //}
+
+            //data = wordsForAuthors;
+
+
+        }
+
+        public static void InitializeRuleManager(string jsonString, bool a)
+        {
+            var allChangeLists = JsonConvert.DeserializeObject<List<ChangeList>>(jsonString);
+
+            //allChangeLists.RemoveRange(10000, 1000);
+            allChangeLists = allChangeLists.Skip(2000).ToList();
+
             AddAuthorsToRuleManager(allChangeLists);
             AddRulesToRuleManager(allChangeLists);
         }
 
         private static IEnumerable<IRule> GetRules()
         {
-            //yield return new DateRangeRule();
-            //yield return new TimeRangeRule();
             yield return new TeamBuilderForSure(); // 353 hits, 100% accuracy
             yield return new ofwmgrForAlmostSure(); // 2434 hits, 2419 belong to ofwmgr, 15 to fsjursaether
+            yield return new DateRangeRule_new();
+            yield return new TimeRule();
+            //yield return new DateRangeRule();
+            //yield return new TimeRangeRule();
+            yield return new BayesRule();
         }
 
         private static void AddRulesToRuleManager(List<ChangeList> allChangeLists)

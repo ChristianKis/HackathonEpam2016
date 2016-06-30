@@ -39,7 +39,7 @@ namespace GuessChangeListAuthor.Models
             }
         }
 
-        public int Execute(string author, ChangeList cl)
+        public double Execute(string author, ChangeList cl)
         {
             DTO dto;
             if (!data.TryGetValue(author, out dto))

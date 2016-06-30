@@ -16,16 +16,19 @@ namespace GuessChangeListAuthor.Models
 
         public static void AddAuthor(string author)
         {
-            authors.Add(author);
+            if (!authors.Contains(author))
+            {
+                authors.Add(author);
+            }
         }
 
         public static string Execute(ChangeList cl)
         {
-            var sum = 0;
-            var res = "";
+            var sum = 0.0;
+            var res = String.Empty;
             foreach (var author in authors)
             {
-                //var one = 0;
+                var one = 0.0;
 
                 foreach (var rule in rules)
                 {
@@ -34,15 +37,14 @@ namespace GuessChangeListAuthor.Models
                     {
                         return author;
                     }
-                    //one += result;
+                    one += result;
                 }
-                return String.Empty;
-                
-                //if (one > sum)
-                //{
-                //    sum = one;
-                //    res = author;
-                //}
+
+                if (one > sum)
+                {
+                    sum = one;
+                    res = author;
+                }
             }
 
             return res;
