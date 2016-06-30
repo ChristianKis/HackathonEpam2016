@@ -33,16 +33,27 @@ namespace GuessChangeListAuthor.Models
         {
             var desc = changelist.Description;
             desc = desc.ToUpper();
-            desc = desc.Replace(";", " ; ");
+            desc = desc.Replace("...", " ... ");
             desc = desc.Replace(",", " ");
-            desc = desc.Replace(".", " ");
             desc = desc.Replace("/", " / ");
             desc = desc.Replace("@", " @ ");
             desc = desc.Replace(":", " : ");
             desc = desc.Replace("'", " ' ");
-            desc = desc.Replace("\\", " \\ ");
+
+
+            int index = desc.IndexOf(';');
+            var descPart1 = desc.Substring(0, index + 1);
+            desc = desc.Substring(index + 1);
+            desc = desc.Replace(";", " ; ");
 
             RegexOptions options = RegexOptions.None;
+            var dotRegex = new Regex("(?<word>[a-zA-Z]+)[.]{1}", options);
+            MatchEvaluator dotEvaluator = new MatchEvaluator(match =>
+            {
+                return match.Groups["word"] + " ";
+            });
+            desc = dotRegex.Replace(desc, dotEvaluator);
+
             var reg2 = new Regex("CL(?<clnumber>[0-9]+)", options);
             MatchEvaluator evaluator = new MatchEvaluator(match =>
             {
@@ -50,8 +61,10 @@ namespace GuessChangeListAuthor.Models
             });
 
             desc = reg2.Replace(desc, evaluator);
+
             Regex regex = new Regex("[ ]{2,}", options);
             desc = regex.Replace(desc, " ");
+            desc += " " + descPart1;
             return desc;
         }
         public double Execute(string author, ChangeList cl)
